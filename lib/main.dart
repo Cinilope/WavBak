@@ -102,7 +102,12 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 ElevatedButton(
-                  onPressed:  ()=> _MakeState("Signer"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,new MaterialPageRoute(builder: (context) => new signScreen()),
+                    );
+                  },
+
                   child: Container(
                     alignment: Alignment.bottomLeft,
                     child: Text("Signer"),
@@ -113,7 +118,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: ()=> _MakeState("Waver"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,new MaterialPageRoute(builder: (context) => new waverScreen()),
+                    );
+                  },
                   child: Container(
                     alignment: Alignment.bottomRight,
                     child: Text("Waver"),
@@ -133,3 +142,100 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+class waverScreen extends StatelessWidget {
+  @override
+  Widget build (BuildContext context){
+    return new Scaffold(
+      body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: Column(
+
+          // Column is also a layout widget. It takes a list of children and
+          // arranges them vertically. By default, it sizes itself to fit its
+          // children horizontally, and tries to be as tall as its parent.
+          //
+          // Invoke "debug painting" (press "p" in the console, choose the
+          // "Toggle Debug Paint" action from the Flutter Inspector in Android
+          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+          // to see the wireframe for each widget.
+          //
+          // Column has various properties to control how it sizes itself and
+          // how it positions its children. Here we use mainAxisAlignment to
+          // center the children vertically; the main axis here is the vertical
+          // axis because Columns are vertical (the cross axis would be
+          // horizontal).
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+
+            //Image.asset('assets/images/Awavbaklogo.jpeg'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,new MaterialPageRoute(builder: (context) => new selectionScreen()),
+                    );
+                  },
+                  child: Container(
+                    alignment: Alignment.bottomLeft,
+                    child: Text("Select"),
+                    color: Colors.blue,
+                    padding:EdgeInsets.all(30.0),
+                    margin: EdgeInsets.all(20.00),
+
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,new MaterialPageRoute(builder: (context) => new selectionScreen()),
+                    );
+                  },
+                  child: Container(
+                    alignment: Alignment.bottomRight,
+                    child: Text("Create"),
+                    color: Colors.blue,
+                    padding:EdgeInsets.all(30.0),
+                    margin: EdgeInsets.all(20.00),
+                  ),
+                ),
+              ],
+            )
+
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class selectionScreen extends StatelessWidget {
+  @override
+  Widget build (BuildContext context){
+    return Scaffold(
+
+    );
+  }
+}
+
+class creationScreen extends StatelessWidget {
+  @override
+  Widget build (BuildContext context){
+    return Scaffold(
+
+    );
+  }
+}
+
+class signScreen extends StatelessWidget{
+  @override
+  Widget build (BuildContext context){
+    return Scaffold(
+
+    );
+  }
+}
+
