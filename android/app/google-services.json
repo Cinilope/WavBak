@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "601873957581",
+    "project_id": "wavbak-cbeff",
+    "storage_bucket": "wavbak-cbeff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601873957581:android:7c1f7afc373968d3709f84",
+        "android_client_info": {
+          "package_name": "com.example.wavbak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "601873957581-fhgq3id1cq9q3tf43m9n8ek8h8vk9gtg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wavbak",
+            "certificate_hash": "d01b32793c355f2171dfa15b8032182d0619f4cc"
+          }
+        },
+        {
+          "client_id": "601873957581-9c5uno45v8klti6jpp39n51l9ni7etvn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs_ZQolJsIcGypMjllUK0qYB3mqP14CB4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "601873957581-9c5uno45v8klti6jpp39n51l9ni7etvn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

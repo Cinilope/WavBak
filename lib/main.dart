@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:googleapis/drive/v3.dart' as drive;
+import 'package:google_sign_in/google_sign_in.dart' as signIn;
+
+import 'GoogleAuthClient.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,7 +32,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePage({Key key,  title, this.appTitle}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -39,7 +43,7 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
+  final String appTitle;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -48,10 +52,26 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _state = "Welcome Screen";
 
- void _MakeState(String inputState) {
+  Future<void> _MakeState(String inputState) async {
     setState(() {
-      _state =  inputState;
+
     });
+    final googleSignIn = signIn.GoogleSignIn.standard(
+        scopes: [drive.DriveApi.driveScope]);
+    final signIn.GoogleSignInAccount account = (await googleSignIn.signIn());
+    print("User account $account");
+
+
+    final authHeaders = await account.authHeaders;
+    final authenticateClient = GoogleAuthClient(authHeaders);
+    final driveApi = drive.DriveApi(authenticateClient);
+
+    final Stream<List<int>> mediaStream = Future.value([104, 105]).asStream();
+    var media = new drive.Media(mediaStream, 2);
+    var driveFile = new drive.File();
+    driveFile.name = "hello_world.txt";
+    final result = await driveApi.files.create(driveFile, uploadMedia: media);
+    print("Upload result: $result");
   }
 
   @override
@@ -85,27 +105,17 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-           Container(
-             child: Text(_state,
-               textScaleFactor: 2,
-                 textAlign: TextAlign.center,
-                 style: TextStyle(fontWeight: FontWeight.bold)
-      ),
 
-             color: Colors.blue,
-               padding:EdgeInsets.all(20.0),
-             margin: EdgeInsets.all(20.00),
-
-           ),
             Image.asset('assets/images/Awavbaklogo.jpeg'),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    _MakeState("hello");
+                   /* Navigator.push(
                       context,new MaterialPageRoute(builder: (context) => new signScreen()),
-                    );
+                    );*/
                   },
 
                   child: Container(
@@ -190,6 +200,7 @@ class waverScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
+
                     Navigator.push(
                       context,new MaterialPageRoute(builder: (context) => new selectionScreen()),
                     );
