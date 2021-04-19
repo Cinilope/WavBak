@@ -1,4 +1,14 @@
+//@dart=2.9
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart' as pdf;
+import 'package:pdf/widgets.dart' as pdfWidget;
+import 'pdf_editor_service.dart';
+import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
+import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,7 +38,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -52,6 +62,37 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _state =  inputState;
     });
+  }
+
+  //This function makes calls to the pdf_editor_service library creating a
+  //mutable pdf document that can be edited using the _editDocument function
+  void _edit() async {
+    PdfMutableDocument doc = await PdfMutableDocument.asset("assets/rhodes.pdf");
+    print("pdfmutabledocument set");
+    _editDocument(doc);
+    await doc.save(filename: "modified.pdf");
+    print("PDF Edition Done");
+  }
+
+  //This makes calls to the generic pdf library using pdfWidget to add text or other
+  //elements to the pdf image
+  void _editDocument(PdfMutableDocument document) {
+    var page = document.getPage(0);
+    page.add(item: pdfWidget.Positioned(
+      left: 0.0,
+      top: 0.0,
+      child: pdfWidget.Text("COUCOU",
+          style: pdfWidget.TextStyle(fontSize: 32, color: pdf.PdfColors.red)),
+    ));
+    var centeredText = pdfWidget.Center(
+        child: pdfWidget.Text(
+          "CENTERED TEXT",
+          style: pdfWidget.TextStyle(
+              fontSize: 40,
+              color: pdf.PdfColors.green,
+              background: pdfWidget.BoxDecoration(color: pdf.PdfColors.purple400)),
+        ));
+    page.add(item: centeredText);
   }
 
   @override
@@ -102,9 +143,16 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    Directory directory = await getApplicationDocumentsDirectory();
+                    var dirPath = directory.path;
+                    var docPath = '$dirPath/rhodes.pdf';
+                    ByteData data = await rootBundle.load("assets/rhodes.pdf");
+                    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+                    await File(docPath).writeAsBytes(bytes);
+                    _edit();
                     Navigator.push(
-                      context,new MaterialPageRoute(builder: (context) => new signScreen()),
+                      context,new MaterialPageRoute(builder: (context) => new signScreen(path:'$dirPath/modified.pdf')),
                     );
                   },
 
@@ -147,6 +195,7 @@ class waverScreen extends StatelessWidget {
   @override
   Widget build (BuildContext context){
     return new Scaffold(
+      appBar: AppBar(title:Text('WavBack')),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -216,7 +265,7 @@ class selectionScreen extends StatelessWidget {
   @override
   Widget build (BuildContext context){
     return Scaffold(
-
+      appBar: AppBar(title:Text('WavBack'))
     );
   }
 }
@@ -225,17 +274,25 @@ class creationScreen extends StatelessWidget {
   @override
   Widget build (BuildContext context){
     return Scaffold(
-
+        appBar: AppBar(title:Text('WavBack'))
     );
   }
 }
 
 class signScreen extends StatelessWidget{
+
+  final String path;
+
+  //Constructor
+  signScreen({this.path});
+
   @override
   Widget build (BuildContext context){
-    return Scaffold(
 
-    );
+    return PDFViewerScaffold(
+      path:path,
+      appBar: AppBar(title:Text('WavBack'))
+      );
   }
 }
 
