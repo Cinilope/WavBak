@@ -1,6 +1,6 @@
 //@dart=2.9
 import 'dart:io';
-
+import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -12,6 +12,30 @@ import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 
 void main() {
   runApp(MyApp());
+}
+
+//SplashScreen class uses Timer class to display splash screen for 5 seconds
+//To Do: Add fade out animation to make transition seamless
+class SplashScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Timer(
+      Duration(seconds: 5), () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (BuildContext context) => MyHomePage())));
+
+    return MaterialApp(
+        home: Scaffold(
+            body: Container(
+              decoration: BoxDecoration(
+                image:DecorationImage(
+                  image: AssetImage('assets/images/splash_anim.gif')
+                )
+              )
+            )
+
+            )
+        );
+    }
 }
 
 class MyApp extends StatelessWidget {
@@ -32,7 +56,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'WAVBAK'),
+      home: SplashScreen(),
     );
   }
 }

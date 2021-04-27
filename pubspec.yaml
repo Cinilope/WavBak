@@ -58,6 +58,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/images/splash_anim.gif
     - assets/pdfs/
 
 
