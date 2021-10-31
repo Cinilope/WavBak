@@ -18,11 +18,25 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=1.6.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  googleapis: any
+  google_sign_in: any
+  pdf_image_renderer: ^0.5.0
+
+    #flutter pdf library used to create and save pdf files
+  pdf: ^2.1.0
+  advance_pdf_viewer: any
+    #path provider
+  path_provider: ^2.0.0
+
+    #pdf viewer
+  flutter_full_pdf_viewer: ^1.0.6
+    # The following adds the Cupertino Icons font to your application.
+    # Use with the CupertinoIcons class for iOS style icons.
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -32,6 +46,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+      #Library that transforms a pdf to an image
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
